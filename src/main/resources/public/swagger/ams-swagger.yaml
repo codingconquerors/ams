@@ -1,0 +1,313 @@
+openapi: 3.0.3
+info:
+  title: Swagger AMS-GrowBiz - OpenAPI 3.0
+  description: |-
+    This is a GrowBiz Server based on the OpenAPI 3.0 specification.
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:8080/api/v1
+tags:
+  - name: ams
+    description: Operations about Appointment Mgt System
+paths:
+
+  /appointment:
+    post:
+      tags:
+        - appointment
+      summary: Create appointment
+      description: This can only be used to create a new appointment.
+      operationId: createAppointment
+      requestBody:
+        description: Created appointment object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+  /appointment/createWithList:
+    post:
+      tags:
+        - Appointment
+      summary: Creates list of Appointments with given input array
+      description: Creates list of Appointments with given input array
+      operationId: createAppointmentsWithListInput
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Appointment'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        default:
+          description: successful operation
+
+  /appointment/{code}:
+    get:
+      tags:
+        - appointment
+      summary: Get appointment by code
+      description: ''
+      operationId: getAppointmentByCode
+      parameters:
+        - name: code
+          in: path
+          description: 'The appointment that needs to be fetched by appointment code. '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+
+        '404':
+          description: Appointment not found
+    put:
+      tags:
+        - appointment
+      summary: Update Appointment
+      description: This can only be done by the logged in user.
+      operationId: updateAppointment
+      parameters:
+        - name: code
+          in: path
+          description: Appointment code that need to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent Appointment in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Appointment'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Appointment'
+    delete:
+      tags:
+        - Appointment
+      summary: Delete Appointment
+      description: This can only be done by the logged in user.
+      operationId: deleteAppointment
+      parameters:
+        - name: code
+          in: path
+          description: The Appointment code that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        '400':
+          description: Invalid appointment code supplied
+        '404':
+          description: Appointment not found
+components:
+  schemas:
+
+    Address:
+      type: object
+      properties:
+        street:
+          type: string
+          example: 437 Lytton
+        city:
+          type: string
+          example: Palo Alto
+        state:
+          type: string
+          example: CA
+        zip:
+          type: string
+          example: '94301'
+      xml:
+        name: address
+
+    Client:
+      type: object
+      properties:
+
+        clientFirstName:
+          type: string
+          example: theClientFirstName
+        clientLastName:
+          type: string
+          example: theclientLastName
+        email:
+          type: string
+          format: email
+          example: john@email.com
+        phone:
+          type: string
+          example: '12345'
+        address:
+          type: array
+          items:
+            $ref: '#/components/schemas/Address'
+
+      xml:
+        name: client
+
+    Appointment:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 10234241
+        appointmentCode:
+          type: string
+          example: 10234241
+
+        appointmentDate:
+          type: string
+          format: date-time
+          example: '2017-07-21T17:32:28Z'
+
+        service:
+          type: string
+          example: 'Facial, massage'
+        staff:
+          type: string
+          example: 'John Wick'
+
+        notes:
+          type: string
+          example: 'additional notes'
+        notification:
+          type: string
+          example: 'email and text message'
+        amount:
+          type: number
+          example: 100$
+        discount:
+          type: number
+          example: 10$
+        duration:
+          type: string
+          example: '1 hr'
+        location:
+          type: string
+          example: 'Toronto'
+        recurring:
+          type: boolean
+          example: true
+        recurringInstances:
+          type: integer
+          example: 10
+        recurringEndDate:
+          type: string
+          example: '2017-07-21T17:32:28Z'
+        additionalNotes:
+          type: string
+          example: 'Notes'
+        client:
+          type: array
+          items:
+            $ref: '#/components/schemas/Client'
+
+
+      xml:
+        name: appointment
+
+
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+      xml:
+        name: '##default'
+  requestBodies:
+    UserArray:
+      description: List of user object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Appointment'
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

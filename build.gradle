@@ -27,7 +27,7 @@ java {
 }
 
 springBoot {
-    mainClass = 'com.akk.growbiz.userapp.UserApplication'
+    mainClass = 'com.akk.growbiz.ams.AMSApplication'
 }
 
 configurations {
@@ -94,11 +94,11 @@ sourceSets.main.java.srcDir "target/generated/src/main/java"
 //}
 
 task generateOpenApiCode(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-    String basePackage = "com.akk.growbiz.userapp"
+    String basePackage = "com.akk.growbiz.ams"
     verbose = true
     library = "spring-boot"
     generatorName = "spring"
-    inputSpec = "$rootDir/src/main/resources/public/swagger/userapp-swagger.yaml".toString()
+    inputSpec = "$rootDir/src/main/resources/public/swagger/ams-swagger.yaml".toString()
     outputDir = "$rootDir/target/generated".toString()
     apiPackage = basePackage + ".controller"
     modelPackage = basePackage + ".model"
