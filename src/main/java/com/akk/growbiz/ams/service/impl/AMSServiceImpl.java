@@ -6,6 +6,7 @@ import com.akk.growbiz.ams.model.Appointment;
 import com.akk.growbiz.ams.repository.AMSMongoTemplateRepository;
 import com.akk.growbiz.ams.repository.AMSRepo;
 import com.akk.growbiz.ams.service.AMSService;
+import com.akk.growbiz.ams.util.UniqueStrGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,22 @@ public class AMSServiceImpl implements AMSService {
     private AMSRepo amsRepo;
     private AMSMongoTemplateRepository amsMongoTemplateRepository;
 
+    private UniqueStrGenerator uniqueStrGenerator;
+
     @Autowired
     AMSMapper amsMapper;
 
-    public AMSServiceImpl(AMSRepo amsRepo, AMSMongoTemplateRepository amsMongoTemplateRepository) {
+    public AMSServiceImpl(AMSRepo amsRepo, AMSMongoTemplateRepository amsMongoTemplateRepository, UniqueStrGenerator uniqueStrGenerator) {
         this.amsRepo = amsRepo;
         this.amsMongoTemplateRepository = amsMongoTemplateRepository;
+        this.uniqueStrGenerator = uniqueStrGenerator;
     }
 
     @Override
     public Appointment createAppointment(Appointment appointment) {
 
         AppointmentEntity appointmentEntity = amsMapper.toEntity(appointment);
-
+        appointmentEntity.setAppointmentCode(uniqueStrGenerator.getAppointmentCode());
         return amsMapper.toAppointment(amsRepo.save(appointmentEntity));
 
     }
@@ -45,7 +49,7 @@ public class AMSServiceImpl implements AMSService {
     @Override
     public Appointment getAppointment(String appointmentCode) {
 
-        return amsMapper.toAppointment(amsRepo.findUserByUserName(appointmentCode));
+        return amsMapper.toAppointment(amsRepo.findAppointmentByCode(appointmentCode));
 
     }
 

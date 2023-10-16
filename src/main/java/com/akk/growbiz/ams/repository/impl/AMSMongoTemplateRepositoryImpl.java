@@ -55,11 +55,11 @@ public class AMSMongoTemplateRepositoryImpl implements AMSMongoTemplateRepositor
     }
 
     @Override
-    public Appointment updateUsingFindAndReplace(String oldUserName, AppointmentEntity userEntity) {
-        Query query = new Query().addCriteria(Criteria.where("userName").is(oldUserName));
+    public Appointment updateUsingFindAndReplace(String appointmentCode, AppointmentEntity appointmentEntity) {
+        Query query = new Query().addCriteria(Criteria.where("appointmentCode").is(appointmentCode));
         FindAndReplaceOptions options = new FindAndReplaceOptions().upsert().returnNew();
 
-        return mongoTemplate.findAndReplace(query, userEntity, options, AppointmentEntity.class, "user", Appointment.class);
+        return mongoTemplate.findAndReplace(query, appointmentEntity, options, AppointmentEntity.class, "appointment", Appointment.class);
     }
 
     @Override

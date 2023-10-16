@@ -24,6 +24,8 @@ public class AppointmentEntity {
 
     private LocalDateTime appointmentDate;
 
+    private String appointmentCode;
+
     private String service;
 
     private String staff;

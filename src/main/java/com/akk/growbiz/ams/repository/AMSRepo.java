@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface AMSRepo extends MongoRepository<AppointmentEntity, String> {
 
-    @Query("{userName:'?0'}")
-    AppointmentEntity findUserByUserName(String userName);
+    @Query("{appointmentCode:'?0'}")
+    AppointmentEntity findAppointmentByCode(String appointmentCode);
 
     @Query(value = "{category:'?0'}", fields = "{'name' : 1, 'quantity' : 1}")
     List<AppointmentEntity> findAll(String category);

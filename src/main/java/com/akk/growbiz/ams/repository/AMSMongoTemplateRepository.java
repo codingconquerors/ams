@@ -16,7 +16,7 @@ public interface AMSMongoTemplateRepository {
 
     Appointment updateCityNameUsingFindAndModify(String oldCityName, String newCityName);
 
-    Appointment updateUsingFindAndReplace(String oldUserName, AppointmentEntity userEntity);
+    Appointment updateUsingFindAndReplace(String appointmentCode, AppointmentEntity appointmentEntity);
 
     /* Update if exists, else Create */
     Appointment saveCity(Appointment city);
