@@ -3,13 +3,19 @@ package com.akk.growbiz.ams.repository;
 import com.akk.growbiz.ams.entity.AppointmentEntity;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface AMSRepo extends MongoRepository<AppointmentEntity, String> {
 
     @Query("{appointmentCode:'?0'}")
-    AppointmentEntity findAppointmentByCode(String appointmentCode);
+    Optional<AppointmentEntity> findAppointmentByCode(String appointmentCode);
+
+    @Query("{$and :[{status: 'SCHEDULED'},{appointmentDate:{lt:?0}}] }")
+    List<AppointmentEntity> findScheduledAppointmentsBeforeDate(@Param("now") LocalDateTime now);
 
     @Query(value = "{category:'?0'}", fields = "{'name' : 1, 'quantity' : 1}")
     List<AppointmentEntity> findAll(String category);

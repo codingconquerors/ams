@@ -5,7 +5,7 @@ info:
     This is a GrowBiz Server based on the OpenAPI 3.0 specification.
   termsOfService: http://swagger.io/terms/
   contact:
-    email: apiteam@swagger.io
+    email: akkapiteam@swagger.io
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -16,14 +16,14 @@ externalDocs:
 servers:
   - url: http://localhost:8080/api/v1
 tags:
-  - name: ams
+  - name: AMS
     description: Operations about Appointment Mgt System
 paths:
 
   /appointment:
     post:
       tags:
-        - appointment
+        - AMS
       summary: Create appointment
       description: This can only be used to create a new appointment.
       operationId: createAppointment
@@ -52,7 +52,7 @@ paths:
   /appointment/createWithList:
     post:
       tags:
-        - Appointment
+        - AMS
       summary: Creates list of Appointments with given input array
       description: Creates list of Appointments with given input array
       operationId: createAppointmentsWithListInput
@@ -79,11 +79,43 @@ paths:
                   $ref: '#/components/schemas/Appointment'
         default:
           description: successful operation
+  /appointments/{date}:
+    get:
+      tags:
+        - AMS
+      summary: Get all the appointments before a given date
+      description: ''
+      operationId: getAppointmentsByDate
+      parameters:
+        - name: date
+          in: path
+          description: 'The list of appointments before a given date. '
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: '2017-07-21T17:32:28Z'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Appointment'
+        '404':
+          description: Appointment not found
 
   /appointment/{code}:
     get:
       tags:
-        - appointment
+        - AMS
       summary: Get appointment by code
       description: ''
       operationId: getAppointmentByCode
@@ -109,7 +141,7 @@ paths:
           description: Appointment not found
     put:
       tags:
-        - appointment
+        - AMS
       summary: Update Appointment
       description: This can only be done by the logged in user.
       operationId: updateAppointment
@@ -144,7 +176,7 @@ paths:
                 $ref: '#/components/schemas/Appointment'
     delete:
       tags:
-        - Appointment
+        - AMS
       summary: Delete Appointment
       description: This can only be done by the logged in user.
       operationId: deleteAppointment
@@ -255,6 +287,9 @@ components:
         location:
           type: string
           example: 'Toronto'
+        status:
+          type: string
+          example: 'SCHEDULED, CONFIRMED, FINISHED, CANCELLED'
         recurring:
           type: boolean
           example: true
@@ -263,6 +298,7 @@ components:
           example: 10
         recurringEndDate:
           type: string
+          format: date-time
           example: '2017-07-21T17:32:28Z'
         additionalNotes:
           type: string
@@ -271,11 +307,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Client'
-
-
       xml:
         name: appointment
-
 
     ApiResponse:
       type: object

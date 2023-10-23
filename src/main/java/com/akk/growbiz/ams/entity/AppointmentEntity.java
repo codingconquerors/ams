@@ -26,6 +26,8 @@ public class AppointmentEntity {
 
     private String appointmentCode;
 
+    private String status;
+
     private String service;
 
     private String staff;
@@ -46,7 +48,7 @@ public class AppointmentEntity {
 
     private Integer recurringInstances;
 
-    private String recurringEndDate;
+    private LocalDateTime recurringEndDate;
 
     private String additionalNotes;
 

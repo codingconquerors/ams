@@ -7,19 +7,21 @@ import com.akk.growbiz.ams.repository.AMSMongoTemplateRepository;
 import com.akk.growbiz.ams.repository.AMSRepo;
 import com.akk.growbiz.ams.service.AMSService;
 import com.akk.growbiz.ams.util.UniqueStrGenerator;
+import com.akk.growbiz.ams.exception.AppointmentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Service
 public class AMSServiceImpl implements AMSService {
 
-    private AMSRepo amsRepo;
-    private AMSMongoTemplateRepository amsMongoTemplateRepository;
+    private final AMSRepo amsRepo;
+    private final AMSMongoTemplateRepository amsMongoTemplateRepository;
 
-    private UniqueStrGenerator uniqueStrGenerator;
+    private final UniqueStrGenerator uniqueStrGenerator;
 
     @Autowired
     AMSMapper amsMapper;
@@ -47,9 +49,14 @@ public class AMSServiceImpl implements AMSService {
     }
 
     @Override
+    public List<Appointment> getScheduledAppointmentsBeforeDate(LocalDateTime localDateTime) {
+        return amsMapper.toAppointmentList(amsRepo.findScheduledAppointmentsBeforeDate(localDateTime));
+    }
+
+    @Override
     public Appointment getAppointment(String appointmentCode) {
 
-        return amsMapper.toAppointment(amsRepo.findAppointmentByCode(appointmentCode));
+        return amsMapper.toAppointment(amsRepo.findAppointmentByCode(appointmentCode).orElseThrow(AppointmentNotFoundException::new));
 
     }
 
