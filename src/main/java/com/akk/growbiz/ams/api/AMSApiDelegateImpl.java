@@ -32,6 +32,7 @@ public class AMSApiDelegateImpl implements AppointmentApiDelegate, AppointmentsA
 
     @Override
     public ResponseEntity<List<Appointment>> getAppointmentsByDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime localDateTime) {
+       // return ResponseEntity.ok(amsService.getScheduledAppointmentsBeforeDate(localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
         return ResponseEntity.ok(amsService.getScheduledAppointmentsBeforeDate(localDateTime));
     }
 

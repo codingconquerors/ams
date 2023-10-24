@@ -14,8 +14,11 @@ public interface AMSRepo extends MongoRepository<AppointmentEntity, String> {
     @Query("{appointmentCode:'?0'}")
     Optional<AppointmentEntity> findAppointmentByCode(String appointmentCode);
 
-    @Query("{$and :[{status: 'SCHEDULED'},{appointmentDate:{lt:?0}}] }")
+    @Query("{$and :[{status: 'SCHEDULED'},{appointmentDate:{gt:?0}}] }")
     List<AppointmentEntity> findScheduledAppointmentsBeforeDate(@Param("now") LocalDateTime now);
+
+    @Query("{'appointmentDate' : { $gte: ?0 } }")
+    List<AppointmentEntity> findAppointmentsBeforeDate(LocalDateTime from);
 
     @Query(value = "{category:'?0'}", fields = "{'name' : 1, 'quantity' : 1}")
     List<AppointmentEntity> findAll(String category);

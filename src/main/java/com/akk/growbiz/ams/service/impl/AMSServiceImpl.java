@@ -50,7 +50,7 @@ public class AMSServiceImpl implements AMSService {
 
     @Override
     public List<Appointment> getScheduledAppointmentsBeforeDate(LocalDateTime localDateTime) {
-        return amsMapper.toAppointmentList(amsRepo.findScheduledAppointmentsBeforeDate(localDateTime));
+        return amsMapper.toAppointmentList(amsRepo.findAppointmentsBeforeDate(localDateTime));
     }
 
     @Override
