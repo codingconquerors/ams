@@ -10,6 +10,6 @@ FROM openjdk:17-jdk-slim
 
 EXPOSE 8080
 
-COPY --from=build /build/libs/ams-0.0.1-SNAPSHOT.jar ams.jar
+COPY --from=build /build/libs/ams-0.0.1-SNAPSHOT.jar ams1.jar
 
-ENTRYPOINT ["java", "-jar", "ams.jar"]
+ENTRYPOINT ["java", "-jar", "ams1.jar"]
