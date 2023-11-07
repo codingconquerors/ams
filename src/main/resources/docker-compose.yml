@@ -1,0 +1,14 @@
+version: '4.25.0'
+services:
+  ams:
+    image: ams
+    container_name: "ams"
+    ports:
+      - 8080:8080
+  mongodb:
+    image: 'mongo:latest'
+    container_name: 'mongodb'
+    environment:
+      - SPRING.DATA.MONGODB.URI=mongodb+srv://growbiz:admin@cluster0.qq5h0ro.mongodb.net/growbizdb
+    ports:
+      - '27070:27017'
