@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories(basePackages = "com.akk.growbiz.ams.repository")
-public class AMSappApplication {
+public class AMSApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AMSappApplication.class, args);
+        SpringApplication.run(AMSApplication.class, args);
     }
 
 }
